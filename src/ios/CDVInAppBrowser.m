@@ -929,9 +929,9 @@
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
 
     //Set delegate for WebView
-    [webView setDelegate:self];
+    [self.webView setDelegate:self];
 
-    [webView loadRequest:req];
+    [self.webView loadRequest:req];
 }
 
 - (void)viewDidUnload
