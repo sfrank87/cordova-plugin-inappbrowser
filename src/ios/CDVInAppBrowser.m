@@ -468,7 +468,7 @@
 
         //parse JSON input in the URL
         NSDictionary *callInfo = [NSJSONSerialization
-                                  JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoing]
+                                  JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
                                   options:kNilOptions
                                   error:&jsonError];
 
