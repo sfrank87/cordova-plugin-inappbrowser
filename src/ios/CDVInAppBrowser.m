@@ -400,8 +400,8 @@
     NSURL* url = request.URL;
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"js2ios://"]) {
-        NSURL *url = [request URL];
-        NSString *urlStr = url.absoluteString;
+        NSURL *url2 = [request URL];
+        NSString *urlStr = url2.absoluteString;
 
         return [self processURL:urlStr];
     } else
@@ -448,7 +448,7 @@
 
     return YES;
 }
-
+//------------------------------
 - (BOOL) processURL:(NSString *) url
 {
     NSString *urlStr = [NSString stringWithString:url];
@@ -585,7 +585,7 @@
         NSLog(@"jsonStr is null. count = %d", [args count]);
     }
 
-    [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",name,jsonStr]];
+    [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",name,jsonStr]];
 }
 
 
