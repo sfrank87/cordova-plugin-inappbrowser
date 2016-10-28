@@ -400,7 +400,8 @@
     NSURL* url = request.URL;
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"js2ios://"]) {
-        //*NSURL *url2 = [request URL];
+        //*
+        NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
         [self processURL:urlStr];
 
