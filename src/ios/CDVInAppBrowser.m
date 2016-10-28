@@ -400,13 +400,14 @@
     NSURL* url = request.URL;
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"js2ios://"]) {
-        NSURL *url2 = [request URL];
+        /*NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
         [self processURL:urlStr];
 
         NSString* scriptCallbackId = [url host];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:scriptCallbackId];
+        */
         return NO;
     } else
     // See if the url uses the 'gap-iab' protocol. If so, the host should be the id of a callback to execute,
@@ -453,6 +454,7 @@
     return YES;
 }
 //------------------------------
+/*/
 - (void) processURL:(NSString *) url
 {
     NSString *urlStr = [NSString stringWithString:url];
@@ -591,7 +593,7 @@
 
     [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",name,jsonStr]];
 }
-
+//*/
 
 //-------------------------
 
