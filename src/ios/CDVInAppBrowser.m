@@ -402,8 +402,12 @@
     if ([[url scheme] isEqualToString:@"js2ios://"]) {
         NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
+        [self processURL:urlStr];
 
-        return [self processURL:urlStr];
+        NSString* scriptCallbackId = [url host];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:scriptCallbackId];
+        return NO;
     } else
     // See if the url uses the 'gap-iab' protocol. If so, the host should be the id of a callback to execute,
     // and the path, if present, should be a JSON-encoded value to pass to the callback.
@@ -476,7 +480,7 @@
         if (jsonError != nil)
         {
             NSLog(@"Error parsing JSON for the url %@",url);
-            return NO;
+            return;
         }
 
         //Get function name. It is a required input
@@ -484,7 +488,7 @@
         if (functionName == nil)
         {
             NSLog(@"Missing function name");
-            return NO;
+            return;
         }
 
         NSString *successCallback = [callInfo objectForKey:@"success"];
@@ -494,7 +498,7 @@
         [self callNativeFunction:functionName withArgs:argsArray onSuccess:successCallback onError:errorCallback];
 
         //Do not load this url in the WebView
-        return NO;
+        return;
 
     //}
 
