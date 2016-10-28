@@ -453,7 +453,7 @@
     return YES;
 }
 //------------------------------
-- (BOOL) processURL:(NSString *) url
+- (void) processURL:(NSString *) url
 {
     NSString *urlStr = [NSString stringWithString:url];
 
