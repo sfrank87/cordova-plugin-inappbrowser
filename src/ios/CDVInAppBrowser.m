@@ -930,14 +930,14 @@
 {
     [super viewDidLoad];
 
-    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"wwwroot"]];
+    /*NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html" inDirectory:@"wwwroot"]];
 
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
 
     //Set delegate for WebView
     [self.webView setDelegate:self];
 
-    [self.webView loadRequest:req];
+    [self.webView loadRequest:req];*/
 }
 
 - (void)viewDidUnload
