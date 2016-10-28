@@ -36,12 +36,14 @@
             'loadstart': channel.create('loadstart'),
             'loadstop' : channel.create('loadstop'),
             'loaderror' : channel.create('loaderror'),
+            'hello' : channel.create('hello'),
             'exit' : channel.create('exit')
        };
     }
 
     InAppBrowser.prototype = {
         _eventHandler: function (event) {
+            console.log('will fire:', event);
             if (event && (event.type in this.channels)) {
                 this.channels[event.type].fire(event);
             }
