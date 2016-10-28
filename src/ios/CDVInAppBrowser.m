@@ -585,7 +585,7 @@
         NSLog(@"jsonStr is null. count = %d", [args count]);
     }
 
-    [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",name,jsonStr]];
+    [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",name,jsonStr]];
 }
 
 
