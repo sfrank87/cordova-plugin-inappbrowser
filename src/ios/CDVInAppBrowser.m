@@ -419,16 +419,16 @@
 
 
 
-        /*
+
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                                       messageAsDictionary:@{@"type":@"hello", @"url":[url absoluteString]}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
-        */
 
 
-        [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('hi2')"];
+
+        //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('hi2')"];
 
         return NO;
     } else
