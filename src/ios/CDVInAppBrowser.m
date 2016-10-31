@@ -470,14 +470,15 @@
       NSLog(@"Error parsing JSON for the url %@",url);
       return;
     }
-    NSDictionary *call = @{
+    [setObject:@"hello" forKey:@"type"]
+    /*NSDictionary *call = @{
         @"type": @"hello",
         @"channel": [json objectForKey:@"channel"],
         @"args": [json objectForKey:@"args"]
-    };
+    };*/
     //NSMutableDictionary *callInfo = [NSMutableDictionary dictionaryWithSharedKeySet:json];
     //[callInfo setObject:@"hello" forKey:@"type"];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:call];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:json];
     //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
     [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
