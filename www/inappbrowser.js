@@ -36,7 +36,7 @@
             'loadstart': channel.create('loadstart'),
             'loadstop' : channel.create('loadstop'),
             'loaderror' : channel.create('loaderror'),
-            'hello' : channel.create('hello'),
+            'ipcmessage' : channel.create('ipcmessage'),
             'exit' : channel.create('exit')
        };
     }

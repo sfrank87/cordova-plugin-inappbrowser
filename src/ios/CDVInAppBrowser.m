@@ -401,7 +401,7 @@
     NSURL* url = request.URL;
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
-    if ([[url scheme] isEqualToString:@"ipc"]) {
+    if ([[url scheme] isEqualToString:@"ipcmessage"]) {
         NSURL *url2 = [request URL];
         [self invokeIPCEventFromURL: url2.absoluteString];
         return NO;
@@ -453,7 +453,7 @@
 //*/
 - (void) invokeIPCEventFromURL:(NSString *) url
 {
-    NSString *urlScheme = @"ipc://";
+    NSString *urlScheme = @"ipcmessage://";
     NSString *urlStr = [NSString stringWithString:url];
     urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     urlStr = [urlStr substringFromIndex:urlScheme.length];
@@ -471,7 +471,7 @@
       return;
     }
     NSDictionary *call = @{
-        @"type": @"hello",
+        @"type": @"ipcmessage",
         @"channel": [json objectForKey:@"channel"],
         @"args": [json objectForKey:@"args"]
     };
