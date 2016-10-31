@@ -470,7 +470,7 @@
       NSLog(@"Error parsing JSON for the url %@",url);
       return;
     }
-    [setObject:@"hello" forKey:@"type"]
+    [json setObject:@"hello" forKey:@"type"];
     /*NSDictionary *call = @{
         @"type": @"hello",
         @"channel": [json objectForKey:@"channel"],
