@@ -453,16 +453,28 @@
 //*/
 - (void) invokeIPCEventFromURL:(NSString *) url
 {
-    //NSString *urlStr = [NSString stringWithString:url];
-    //NSRange range = [url rangeOfString: @"{"];
-    //if(range.length > 0) {
-        //NSString *urlStr = [url substringFromIndex:range.location];
-        NSString *urlStr = [NSString stringWithString:url];
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
-        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+    NSString *urlScheme = @"ipc://";
+    NSString *urlStr = [NSString stringWithString:url];
+    urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlStr = [urlStr substringFromIndex:urlScheme.length];
+    NSError *jsonError;
 
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
-    //}
+    //parse JSON input in the URL
+    NSDictionary *callInfo = [NSJSONSerialization
+                              JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
+                              options:kNilOptions
+                              error:&jsonError];
+
+    if (jsonError != nil)
+    {
+      NSLog(@"Error parsing JSON for the url %@",url);
+      return NO;
+    }
+    [callInfo setObject:@"hello" forKey:@"type"];
+    //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 
 
 /*
