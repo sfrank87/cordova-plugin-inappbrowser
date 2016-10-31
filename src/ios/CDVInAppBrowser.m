@@ -471,7 +471,7 @@
       return;
     }
 
-    NSMutableDictionary *callinfo = [[NSMutableDictionary alloc] dictionaryWithSharedKeySet:json];
+    NSMutableDictionary *callInfo = [[NSMutableDictionary alloc] dictionaryWithSharedKeySet:json];
     [callInfo setObject:@"hello" forKey:@"type"];
     //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
