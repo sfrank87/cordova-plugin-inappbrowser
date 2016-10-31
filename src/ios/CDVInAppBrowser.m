@@ -471,10 +471,10 @@
       return;
     }
 
-    NSMutableDictionary *callInfo = [NSMutableDictionary dictionaryWithSharedKeySet:json];
-    [callInfo setObject:@"hello" forKey:@"type"];
-    //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
+    //NSMutableDictionary *callInfo = [NSMutableDictionary dictionaryWithSharedKeySet:json];
+    //[callInfo setObject:@"hello" forKey:@"type"];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":[json objectForKey:@"channel"]}];
+    //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
     [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 
