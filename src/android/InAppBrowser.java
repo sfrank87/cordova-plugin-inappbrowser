@@ -855,12 +855,12 @@ public class InAppBrowser extends CordovaPlugin {
                     /*Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);*/
-                    String json = new JSONObject(url.substring(urlScheme.length));
-                    JSONObject obj = new JSONObject();
-                    obj.put("type", "ipcmessage");
-                    obj.put("channel", json.getString("channel"));
-                    obj.put("args", json.getJSONArray("args"));
-                    sendUpdate(obj, true);
+                    JSONObject urlJson = new JSONObject(url.substring(urlScheme.length));
+                    JSONObject eventJson = new JSONObject();
+                    eventJson.put("type", "ipcmessage");
+                    eventJson.put("channel", urlJson.getString("channel"));
+                    eventJson.put("args", urlJson.getJSONArray("args"));
+                    sendUpdate(eventJson, true);
                     return true;
                 } catch (JSONException e) {
                     LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
