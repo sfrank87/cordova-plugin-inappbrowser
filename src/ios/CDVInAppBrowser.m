@@ -422,7 +422,7 @@
         */
 
 
-        [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');","alert","Hi"]];
+        [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('hi2')"];
 
         return NO;
     } else
