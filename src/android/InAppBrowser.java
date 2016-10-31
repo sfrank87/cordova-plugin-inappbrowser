@@ -849,14 +849,17 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-            if (url.startsWith("ipc://")) {
+            String urlScheme ="ipcmessage://";
+            if (url.startsWith(urlScheme)) {
                 try {
                     /*Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);*/
+                    String json = new JSONObject(url.substring(urlScheme.length));
                     JSONObject obj = new JSONObject();
-                    obj.put("type", "hello");
-                    obj.put("url", url);
+                    obj.put("type", "ipcmessage");
+                    obj.put("channel", json.getString("channel"));
+                    obj.put("args", json.getJSONArray("args"));
                     sendUpdate(obj, true);
                     return true;
                 } catch (JSONException e) {
