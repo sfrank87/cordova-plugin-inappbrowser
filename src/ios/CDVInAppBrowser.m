@@ -457,7 +457,7 @@
     //NSRange range = [url rangeOfString: @"{"];
     //if(range.length > 0) {
         //NSString *urlStr = [url substringFromIndex:range.location];
-        NSString *urlStr = [NSString stringWithString:url]
+        NSString *urlStr = [NSString stringWithString:url];
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
 
