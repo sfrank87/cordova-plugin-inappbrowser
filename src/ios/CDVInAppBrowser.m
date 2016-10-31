@@ -460,7 +460,7 @@
     NSError *jsonError;
 
     //parse JSON input in the URL
-    NSDictionary *callInfo = [NSJSONSerialization
+    NSDictionary *json = [NSJSONSerialization
                               JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
                               options:kNilOptions
                               error:&jsonError];
@@ -468,8 +468,10 @@
     if (jsonError != nil)
     {
       NSLog(@"Error parsing JSON for the url %@",url);
-      return NO;
+      return;
     }
+
+    NSMutableDictionary *callinfo = [[NSMutableDictionary alloc] dictionaryWithSharedKeySet:json];
     [callInfo setObject:@"hello" forKey:@"type"];
     //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
