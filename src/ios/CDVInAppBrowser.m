@@ -405,7 +405,7 @@
     }
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
-    if ([[url scheme] isEqualToString:@"lc"]) {
+    if ([[url scheme] isEqualToString:@"ipc"]) {
         /*
         NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
