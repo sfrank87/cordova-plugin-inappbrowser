@@ -397,6 +397,7 @@
  */
 - (BOOL)webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('okay')"];
     NSURL* url = request.URL;
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"lc://"]) {
