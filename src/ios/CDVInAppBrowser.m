@@ -400,12 +400,12 @@
     //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('okay')"];
     NSURL* url = request.URL;
     if(self.inAppBrowserViewController != nil && self.inAppBrowserViewController.webView != nil) {
-        [self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",@"alert",url]];
+        //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",@"alert",[url scheme]]];
         //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('okay')"];
     }
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
-    if ([[url scheme] isEqualToString:@"lc://"]) {
+    if ([[url scheme] isEqualToString:@"lc"]) {
         /*
         NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
