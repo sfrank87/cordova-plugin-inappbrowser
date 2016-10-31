@@ -462,7 +462,7 @@
     //parse JSON input in the URL
     NSDictionary *json = [NSJSONSerialization
                               JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
-                              options:kNilOptions
+                              options:NSJSONReadingMutableContainers
                               error:&jsonError];
 
     if (jsonError != nil)
@@ -470,16 +470,14 @@
       NSLog(@"Error parsing JSON for the url %@",url);
       return;
     }
-
+    NSDictionary *call = @{
+        @"type": @"hello",
+        @"channel": [json objectForKey:@"channel"],
+        @"args": [json objectForKey:@"args"]
+    };
     //NSMutableDictionary *callInfo = [NSMutableDictionary dictionaryWithSharedKeySet:json];
     //[callInfo setObject:@"hello" forKey:@"type"];
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                        messageAsDictionary:@{
-                                            @"type": @"hello",
-                                            @"channel": [json objectForKey:@"channel"],
-                                            @"args": [json objectForKey:@"args"]
-                                        }
-                                    ];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:call];
     //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
     [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
