@@ -859,7 +859,7 @@ public class InAppBrowser extends CordovaPlugin {
                     obj.put("url", url);
                     sendUpdate(obj, true);
                     return true;
-                } catch (android.content.ActivityNotFoundException e) {
+                } catch (JSONException e) {
                     LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
                 }
             }
