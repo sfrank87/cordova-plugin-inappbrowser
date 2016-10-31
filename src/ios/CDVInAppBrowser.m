@@ -402,8 +402,8 @@
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"ipc"]) {
-        NSURL *url = [request URL];
-        [self invokeIPCEventFromURL: url.absoluteString];
+        NSURL *url2 = [request URL];
+        [self invokeIPCEventFromURL: url2.absoluteString];
         return NO;
     } else
     // See if the url uses the 'gap-iab' protocol. If so, the host should be the id of a callback to execute,
@@ -454,14 +454,15 @@
 - (void) invokeIPCEventFromURL:(NSString *) url
 {
     //NSString *urlStr = [NSString stringWithString:url];
-    NSRange range = [url rangeOfString: @"{"];
-    if(range.length > 0) {
-        NSString *urlStr = [url substringFromIndex:range.location];
+    //NSRange range = [url rangeOfString: @"{"];
+    //if(range.length > 0) {
+        //NSString *urlStr = [url substringFromIndex:range.location];
+        NSString *urlStr = [NSString stringWithString:url]
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":urlStr}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
-    }
+    //}
 
 
 /*
