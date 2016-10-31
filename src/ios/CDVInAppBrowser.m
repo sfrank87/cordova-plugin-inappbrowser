@@ -399,32 +399,11 @@
 {
     //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('okay')"];
     NSURL* url = request.URL;
-    if(self.inAppBrowserViewController != nil && self.inAppBrowserViewController.webView != nil) {
-        //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"%@('%@');",@"alert",[url scheme]]];
-        //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('okay')"];
-    }
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"ipc"]) {
         NSURL *url = [request URL];
         [self invokeIPCEventFromURL: url.absoluteString];
-
-        /*
-        NSURL *url2 = [request URL];
-        NSString *urlStr = url2.absoluteString;
-        [self processURL:urlStr];
-
-        NSString* scriptCallbackId = [url host];
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:@[]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:scriptCallbackId];
-        //*/
-        // Send a loadstart event for each top-level navigation (includes redirects).
-
-
-
-
-        //[self.inAppBrowserViewController.webView stringByEvaluatingJavaScriptFromString:@"alert('hi2')"];
-
         return NO;
     } else
     // See if the url uses the 'gap-iab' protocol. If so, the host should be the id of a callback to execute,
@@ -478,19 +457,17 @@
     NSRange range = [url rangeOfString: @"{"];
     if(range.length > 0) {
         NSString *urlStr = [url substringFromIndex:range.location];
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":[urlStr absoluteString]}];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":[urlStr]}];
         [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
 
         [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
     }
 
 
-
+/*
     NSString *protocolPrefix = @"js2ios://";
 
-    //process only our custom protocol
-    //if ([[urlStr lowercaseString] hasPrefix:protocolPrefix])
-    //{
+
         //strip protocol from the URL. We will get input to call a native method
         urlStr = [urlStr substringFromIndex:protocolPrefix.length];
 
@@ -530,7 +507,7 @@
         return;
 
     //}
-
+*/
     //return YES;
 }
 
