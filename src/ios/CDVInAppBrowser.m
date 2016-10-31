@@ -475,9 +475,9 @@
     //[callInfo setObject:@"hello" forKey:@"type"];
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
                                         messageAsDictionary:@{
-                                            @"type":@"hello",
-                                            @"url":[json objectForKey:@"channel"],
-                                            "args": [json objectForKey:"args"]
+                                            @"type": @"hello",
+                                            @"channel": [json objectForKey:@"channel"],
+                                            @"args": [json objectForKey:@"args"]
                                         }
                                     ];
     //CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:callInfo];
