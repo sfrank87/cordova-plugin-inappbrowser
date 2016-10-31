@@ -406,6 +406,9 @@
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"ipc"]) {
+        NSURL *url = [request URL];
+        [self invokeIPCEventFromURL: url.absoluteString];
+
         /*
         NSURL *url2 = [request URL];
         NSString *urlStr = url2.absoluteString;
@@ -417,14 +420,6 @@
         //*/
         // Send a loadstart event for each top-level navigation (includes redirects).
 
-
-
-
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK
-                                                      messageAsDictionary:@{@"type":@"hello", @"url":[url absoluteString]}];
-        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
-
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 
 
 
@@ -477,6 +472,68 @@
 }
 //------------------------------
 //*/
+- (void) invokeIPCEventFromURL:(NSString *) url
+{
+    //NSString *urlStr = [NSString stringWithString:url];
+    NSRange range = [url rangeOfString: @"{"];
+    if(range.length > 0) {
+        NSString *urlStr = [url substringFromIndex:range.location];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"type":@"hello", @"url":[urlStr absoluteString]}];
+        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+    }
+
+
+
+    NSString *protocolPrefix = @"js2ios://";
+
+    //process only our custom protocol
+    //if ([[urlStr lowercaseString] hasPrefix:protocolPrefix])
+    //{
+        //strip protocol from the URL. We will get input to call a native method
+        urlStr = [urlStr substringFromIndex:protocolPrefix.length];
+
+        //Decode the url string
+        urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+        NSError *jsonError;
+
+        //parse JSON input in the URL
+        NSDictionary *callInfo = [NSJSONSerialization
+                                  JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
+                                  options:kNilOptions
+                                  error:&jsonError];
+
+        //check if there was error in parsing JSON input
+        if (jsonError != nil)
+        {
+            NSLog(@"Error parsing JSON for the url %@",url);
+            return;
+        }
+
+        //Get function name. It is a required input
+        NSString *functionName = [callInfo objectForKey:@"functionname"];
+        if (functionName == nil)
+        {
+            NSLog(@"Missing function name");
+            return;
+        }
+
+        NSString *successCallback = [callInfo objectForKey:@"success"];
+        NSString *errorCallback = [callInfo objectForKey:@"error"];
+        NSArray *argsArray = [callInfo objectForKey:@"args"];
+
+        [self callNativeFunction:functionName withArgs:argsArray onSuccess:successCallback onError:errorCallback];
+
+        //Do not load this url in the WebView
+        return;
+
+    //}
+
+    //return YES;
+}
+
 - (void) processURL:(NSString *) url
 {
     NSString *urlStr = [NSString stringWithString:url];
