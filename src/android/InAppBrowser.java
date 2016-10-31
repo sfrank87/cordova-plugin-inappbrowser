@@ -849,7 +849,21 @@ public class InAppBrowser extends CordovaPlugin {
          */
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String url) {
-            if (url.startsWith(WebView.SCHEME_TEL)) {
+            if (url.startsWith("ipc://")) {
+                try {
+                    /*Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse(url));
+                    cordova.getActivity().startActivity(intent);*/
+                    JSONObject obj = new JSONObject();
+                    obj.put("type", "hello");
+                    obj.put("url", url);
+                    sendUpdate(obj, true);
+                    return true;
+                } catch (android.content.ActivityNotFoundException e) {
+                    LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
+                }
+            }
+            else if (url.startsWith(WebView.SCHEME_TEL)) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
