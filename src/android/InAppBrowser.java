@@ -855,7 +855,7 @@ public class InAppBrowser extends CordovaPlugin {
                     /*Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse(url));
                     cordova.getActivity().startActivity(intent);*/
-                    JSONObject urlJson = new JSONObject(url.substring(urlScheme.length));
+                    JSONObject urlJson = new JSONObject(url.substring(urlScheme.length()));
                     JSONObject eventJson = new JSONObject();
                     eventJson.put("type", "ipcmessage");
                     eventJson.put("channel", urlJson.getString("channel"));
