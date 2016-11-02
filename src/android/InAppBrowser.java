@@ -852,19 +852,16 @@ public class InAppBrowser extends CordovaPlugin {
             String urlScheme ="ipcmessage://";
             if (url.startsWith(urlScheme)) {
                 try {
-                    /*Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse(url));
-                    cordova.getActivity().startActivity(intent);*/
                     JSONObject urlJson = new JSONObject(url.substring(urlScheme.length()));
                     JSONObject eventJson = new JSONObject();
                     eventJson.put("type", "ipcmessage");
                     eventJson.put("channel", urlJson.getString("channel"));
                     eventJson.put("args", urlJson.getJSONArray("args"));
                     sendUpdate(eventJson, true);
-                    return true;
                 } catch (JSONException e) {
-                    LOG.e(LOG_TAG, "Error dialing " + url + ": " + e.toString());
+                    LOG.e(LOG_TAG, "Error triggering ipc event " + url + ": " + e.toString());
                 }
+                return true;
             }
             else if (url.startsWith(WebView.SCHEME_TEL)) {
                 try {
