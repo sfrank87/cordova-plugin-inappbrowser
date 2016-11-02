@@ -90,7 +90,18 @@
         }
     };
 
+    var iabSingleton = {
+        _theInstance: undefined,
+        getInstance: function () {
+            if(!this._theInstance) {
+                this._theInstance = new InAppBrowser();
+            }
+            return this._theInstance;
+        }
+    };
+
     module.exports = function(strUrl, strWindowName, strWindowFeatures, callbacks) {
+        console.log(arguments);
         // Don't catch calls that write to existing frames (e.g. named iframes).
         if (window.frames && window.frames[strWindowName]) {
             var origOpenFunc = modulemapper.getOriginalSymbol(window, 'open');
@@ -98,7 +109,7 @@
         }
 
         strUrl = urlutil.makeAbsolute(strUrl);
-        var iab = new InAppBrowser();
+        var iab = iabSingleton.getInstance();
 
         callbacks = callbacks || {};
         for (var callbackName in callbacks) {
