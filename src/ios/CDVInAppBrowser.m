@@ -397,38 +397,12 @@
  */
 - (BOOL)webView:(UIWebView*)theWebView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSString *urlScheme = @"ipcmessage://";
     NSURL* url = request.URL;
 
     BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
     if ([[url scheme] isEqualToString:@"ipcmessage"]) {
-        //get and decode JSON string
-        NSString *urlStr = [NSString stringWithString:url];
-        urlStr = [urlStr substringFromIndex:urlScheme.length];
-        urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-        // parse JSON
-        NSError *jsonError;
-        NSDictionary *json = [NSJSONSerialization
-                                JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
-                                options:kNilOptions
-                                error:&jsonError];
-        // on JSON errors log and break
-        if (jsonError != nil)
-        {
-          NSLog(@"Error triggering ipc event %@",url);
-          return NO;
-        }
-        // prepare ipc event
-        NSDictionary *call = @{
-            @"type": @"ipcmessage",
-            @"channel": [json objectForKey:@"channel"],
-            @"args": [json objectForKey:@"args"]
-        };
-        // trigger ipc event
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:call];
-        [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
+        NSURL *url2 = [request URL];
+        [self invokeIPCEventFromURL: url2.absoluteString];
         return NO;
     } else
     // See if the url uses the 'gap-iab' protocol. If so, the host should be the id of a callback to execute,
@@ -473,6 +447,35 @@
     }
 
     return YES;
+}
+
+- (void) invokeIPCEventFromURL:(NSString *) url
+{
+    NSString *urlScheme = @"ipcmessage://";
+    NSString *urlStr = [NSString stringWithString:url];
+    urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    urlStr = [urlStr substringFromIndex:urlScheme.length];
+    NSError *jsonError;
+
+    //parse JSON input in the URL
+    NSDictionary *json = [NSJSONSerialization
+                            JSONObjectWithData:[urlStr dataUsingEncoding:NSUTF8StringEncoding]
+                            options:kNilOptions
+                            error:&jsonError];
+
+    if (jsonError != nil)
+    {
+      NSLog(@"Error triggering ipc event %@",url);
+      return;
+    }
+    NSDictionary *call = @{
+        @"type": @"ipcmessage",
+        @"channel": [json objectForKey:@"channel"],
+        @"args": [json objectForKey:@"args"]
+    };
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:call];
+    [pluginResult setKeepCallback:[NSNumber numberWithBool:YES]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.callbackId];
 }
 
 - (void)webViewDidStartLoad:(UIWebView*)theWebView
