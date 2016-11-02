@@ -32,6 +32,7 @@
     var urlutil = require('cordova/urlutil');
 
     function InAppBrowser() {
+        console.log('##neue instanz');
        this.channels = {
             'loadstart': channel.create('loadstart'),
             'loadstop' : channel.create('loadstop'),
