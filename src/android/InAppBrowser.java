@@ -863,6 +863,8 @@ public class InAppBrowser extends CordovaPlugin {
                     sendUpdate(eventJson, true);
                 } catch (JSONException e) {
                     LOG.e(LOG_TAG, "Error triggering ipc event " + url + ": " + e.toString());
+                } catch (UnsupportedEncodingException e) {
+                    LOG.e(LOG_TAG, "Error triggering ipc event " + url + ": " + e.toString());
                 }
                 return true;
             }
