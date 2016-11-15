@@ -854,7 +854,7 @@ public class InAppBrowser extends CordovaPlugin {
             if (url.startsWith(urlScheme)) {
                 try {
                     String encodedIPCMessage = url.substring(urlScheme.length());
-                    String IPCMessage = URLDecoder.decode(encodedIPCMessage, 'UTF-8');
+                    String IPCMessage = URLDecoder.decode(encodedIPCMessage, "UTF-8");
                     JSONObject urlJson = new JSONObject();
                     JSONObject eventJson = new JSONObject();
                     eventJson.put("type", "ipcmessage");
