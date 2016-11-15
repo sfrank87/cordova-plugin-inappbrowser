@@ -32,7 +32,6 @@
     var urlutil = require('cordova/urlutil');
 
     function InAppBrowser() {
-        console.log('##neue instanz');
        this.channels = {
             'loadstart': channel.create('loadstart'),
             'loadstop' : channel.create('loadstop'),
@@ -44,7 +43,6 @@
 
     InAppBrowser.prototype = {
         _eventHandler: function (event) {
-            console.log('will fire:', event);
             if (event && (event.type in this.channels)) {
                 this.channels[event.type].fire(event);
             }
@@ -91,7 +89,6 @@
     };
 
     module.exports = function(strUrl, strWindowName, strWindowFeatures, callbacks) {
-        console.log(arguments);
         // Don't catch calls that write to existing frames (e.g. named iframes).
         if (window.frames && window.frames[strWindowName]) {
             var origOpenFunc = modulemapper.getOriginalSymbol(window, 'open');
